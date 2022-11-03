@@ -100,7 +100,11 @@ class BarcodesShowcaseLayout extends StatelessWidget {
   final List<Widget> children;
   final ViewMode viewMode;
 
-  const BarcodesShowcaseLayout({Key? key, required this.children, required this.viewMode,}) : super(key: key);
+  const BarcodesShowcaseLayout({
+    Key? key,
+    required this.children,
+    required this.viewMode,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +116,8 @@ class BarcodesShowcaseLayout extends StatelessWidget {
           children: children,
         );
       case ViewMode.list:
-       return Column(
-         crossAxisAlignment: CrossAxisAlignment.stretch,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: children,
         );
     }
@@ -121,7 +125,6 @@ class BarcodesShowcaseLayout extends StatelessWidget {
     return Container();
   }
 }
-
 
 class BarcodeSelector extends HookWidget {
   final String code;
@@ -133,7 +136,12 @@ class BarcodeSelector extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final validTypes = [BarcodeType.CodeEAN13, BarcodeType.Codabar, BarcodeType.QrCode,].where((type) => Barcode.fromType(type).isValid(code)).toList();
+    final validTypes = [
+      BarcodeType.CodeEAN13,
+      BarcodeType.Code128,
+      BarcodeType.Codabar,
+      BarcodeType.QrCode,
+    ].where((type) => Barcode.fromType(type).isValid(code)).toList();
     final selectedType = useState<BarcodeType>(validTypes.first);
     useEffect(() {
       selectedType.value = validTypes.first;
@@ -147,19 +155,19 @@ class BarcodeSelector extends HookWidget {
           type: selectedType.value,
         ),
         if (validTypes.isNotEmpty)
-        DropdownButton<BarcodeType>(
-          hint: Text('Type'),
-          value: selectedType.value,
-          items:
-          validTypes.map(
-                (e) => DropdownMenuItem(
-                  value: e,
-                  child: Text(e.name),
-                ),
-              )
-              .toList(),
-          onChanged: (type) => selectedType.value = type ?? BarcodeType.Code39,
-        ),
+          DropdownButton<BarcodeType>(
+            hint: Text('Type'),
+            value: selectedType.value,
+            items: validTypes
+                .map(
+                  (e) => DropdownMenuItem(
+                    value: e,
+                    child: Text(e.name),
+                  ),
+                )
+                .toList(),
+            onChanged: (type) => selectedType.value = type ?? BarcodeType.Code39,
+          ),
       ],
     );
   }
@@ -181,10 +189,16 @@ class GWBarcode extends StatelessWidget {
 
     try {
       final typeSize = _barcodeSize(type);
-      final svg = bc.toSvg(code, width: typeSize.width, height: typeSize.height,);
+      final svg = bc.toSvg(
+        code,
+        width: typeSize.width,
+        height: typeSize.height,
+      );
       return SvgPicture.string(svg);
     } catch (e) {
-      return Container(child: Text(e.toString()),);
+      return Container(
+        child: Text(e.toString()),
+      );
     }
   }
 }
