@@ -48,6 +48,7 @@ class GWBarcodeTool extends HookWidget {
           ),
           VerticalDivider(),
           Flexible(
+            flex: 2,
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
