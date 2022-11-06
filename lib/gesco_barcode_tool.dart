@@ -136,17 +136,26 @@ class BarcodeSelector extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final validTypes = [
+    final availableTypes = useState<List<BarcodeType>>([
       BarcodeType.CodeEAN13,
       BarcodeType.Code128,
-      BarcodeType.Codabar,
       BarcodeType.QrCode,
-    ].where((type) => Barcode.fromType(type).isValid(code)).toList();
-    final selectedType = useState<BarcodeType>(validTypes.first);
+      BarcodeType.Codabar,
+    ].where((type) => Barcode.fromType(type).isValid(code)).toList());
+    final selectedType = useState<BarcodeType>(availableTypes.value.first);
     useEffect(() {
-      selectedType.value = validTypes.first;
+      final validTypes = [
+        BarcodeType.CodeEAN13,
+        BarcodeType.Code128,
+        BarcodeType.QrCode,
+        BarcodeType.Codabar,
+      ].where((type) => Barcode.fromType(type).isValid(code)).toList();
+      if (validTypes != availableTypes.value) {
+        availableTypes.value = validTypes;
+        selectedType.value = validTypes.first;
+      }
       return null;
-    }, [validTypes]);
+    }, [code]);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -154,11 +163,11 @@ class BarcodeSelector extends HookWidget {
           code: code,
           type: selectedType.value,
         ),
-        if (validTypes.isNotEmpty)
+        if (availableTypes.value.isNotEmpty)
           DropdownButton<BarcodeType>(
             hint: Text('Type'),
             value: selectedType.value,
-            items: validTypes
+            items: availableTypes.value
                 .map(
                   (e) => DropdownMenuItem(
                     value: e,
@@ -166,7 +175,7 @@ class BarcodeSelector extends HookWidget {
                   ),
                 )
                 .toList(),
-            onChanged: (type) => selectedType.value = type ?? BarcodeType.Code39,
+            onChanged: (type) => selectedType.value = type ?? availableTypes.value.first,
           ),
       ],
     );
@@ -238,8 +247,7 @@ Size _barcodeSize(BarcodeType type) {
       // TODO: Handle this case.
       break;
     case BarcodeType.Code128:
-      // TODO: Handle this case.
-      break;
+      return Size(400, 100);
     case BarcodeType.GS128:
       // TODO: Handle this case.
       break;
