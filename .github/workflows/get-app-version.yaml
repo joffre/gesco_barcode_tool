@@ -1,0 +1,31 @@
+name: Reusable workflow to get flutter package version
+
+on:
+  workflow_call:
+    outputs:
+      version_name:
+        value: ${{ jobs.app_version.outputs.version_name }}
+      version_code:
+        value: ${{ jobs.app_version.outputs.version_code }}
+jobs:
+  app_version:
+    name: 🔢 Get application version with major.minor.path format only (without +build)
+    runs-on: [ self-hosted, Linux ]
+#    runs-on: ubuntu-latest
+    outputs:
+      version_name: ${{steps.extract-current-version.outputs.version_name}}
+      version_code: ${{steps.extract-current-version.outputs.version_code}}
+    steps:
+      - id: checkout
+        uses: actions/checkout@v3
+
+      - name: Set up yq
+        uses: mikefarah/yq@v4.30.8
+
+      - name: Get current app version
+        id: extract-current-version
+        run: |
+          VERSION_NAME=$(yq '.version' pubspec.yaml | cut -d '+' -f 1);
+          VERSION_CODE=$(yq '.version' pubspec.yaml | cut -d '+' -f 2);
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
