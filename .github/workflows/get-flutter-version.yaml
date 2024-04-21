@@ -1,0 +1,25 @@
+name: Reusable workflow to get flutter fvm version from fvm config
+
+on:
+  workflow_call:
+    outputs:
+      flutter_version:
+        value: ${{ jobs.flutter_version.outputs.flutter_version }}
+jobs:
+  flutter_version:
+    name: 🦋 Get flutter version from fvm config file
+    runs-on: [ self-hosted, Linux ]
+    outputs:
+      flutter_version: ${{steps.extract-current-version.outputs.flutter_version}}
+    steps:
+      - id: checkout
+        uses: actions/checkout@v3
+
+      - name: Set up yq
+        uses: mikefarah/yq@v4.30.8
+
+      - name: Get current app version
+        id: extract-current-version
+        run: |
+          FLUTTER_VERSION=$(yq '.flutter' .fvmrc);
+          echo "flutter_version=$FLUTTER_VERSION" >> $GITHUB_OUTPUT
