@@ -9,7 +9,7 @@ enum ViewMode {
 }
 
 class GWBarcodeTool extends HookWidget {
-  const GWBarcodeTool({Key? key}) : super(key: key);
+  const GWBarcodeTool({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class GWBarcodeTool extends HookWidget {
     final selectedViewMode = useState<ViewMode>(ViewMode.grid);
     return Scaffold(
       appBar: AppBar(
-        title: Text("BARCODE_TOOL"),
+        title: const Text("BARCODE_TOOL"),
       ),
       body: Row(
         mainAxisSize: MainAxisSize.min,
@@ -46,7 +46,7 @@ class GWBarcodeTool extends HookWidget {
               ),
             ),
           ),
-          VerticalDivider(),
+          const VerticalDivider(),
           Flexible(
             flex: 2,
             child: SingleChildScrollView(
@@ -59,16 +59,16 @@ class GWBarcodeTool extends HookWidget {
                       children: ViewMode.values.map((mode) {
                         switch (mode) {
                           case ViewMode.grid:
-                            return Icon(Icons.grid_view_outlined);
+                            return const Icon(Icons.grid_view_outlined);
                           case ViewMode.list:
-                            return Icon(Icons.view_list_outlined);
+                            return const Icon(Icons.view_list_outlined);
                         }
                       }).toList(),
                       onPressed: (index) {
                         selectedViewMode.value = ViewMode.values[index];
                       },
                     ),
-                    SizedBox(height: 12.0),
+                    const SizedBox(height: 12.0),
                     BarcodesShowcaseLayout(
                       viewMode: selectedViewMode.value,
                       children: codes.value
@@ -101,10 +101,10 @@ class BarcodesShowcaseLayout extends StatelessWidget {
   final ViewMode viewMode;
 
   const BarcodesShowcaseLayout({
-    Key? key,
+    super.key,
     required this.children,
     required this.viewMode,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,6 @@ class BarcodesShowcaseLayout extends StatelessWidget {
         );
     }
 
-    return Container();
   }
 }
 
@@ -130,9 +129,9 @@ class BarcodeSelector extends HookWidget {
   final String code;
 
   const BarcodeSelector({
-    Key? key,
+    super.key,
     required this.code,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +164,7 @@ class BarcodeSelector extends HookWidget {
         ),
         if (availableTypes.value.isNotEmpty)
           DropdownButton<BarcodeType>(
-            hint: Text('Type'),
+            hint: const Text('Type'),
             value: selectedType.value,
             items: availableTypes.value
                 .map(
@@ -186,10 +185,10 @@ class GWBarcode extends StatelessWidget {
   final String code;
   final BarcodeType type;
   const GWBarcode({
-    Key? key,
+    super.key,
     required this.code,
     required this.type,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -205,9 +204,7 @@ class GWBarcode extends StatelessWidget {
       );
       return SvgPicture.string(svg);
     } catch (e) {
-      return Container(
-        child: Text(e.toString()),
-      );
+      return Text(e.toString());
     }
   }
 }
@@ -221,7 +218,7 @@ Size _barcodeSize(BarcodeType type) {
       // TODO: Handle this case.
       break;
     case BarcodeType.CodeEAN13:
-      return Size(400, 100);
+      return const Size(400, 100);
     case BarcodeType.CodeEAN8:
       // TODO: Handle this case.
       break;
@@ -247,7 +244,7 @@ Size _barcodeSize(BarcodeType type) {
       // TODO: Handle this case.
       break;
     case BarcodeType.Code128:
-      return Size(400, 100);
+      return const Size(400, 100);
     case BarcodeType.GS128:
       // TODO: Handle this case.
       break;
@@ -255,9 +252,9 @@ Size _barcodeSize(BarcodeType type) {
       // TODO: Handle this case.
       break;
     case BarcodeType.QrCode:
-      return Size(200, 200);
+      return const Size(200, 200);
     case BarcodeType.Codabar:
-      return Size(400, 100);
+      return const Size(400, 100);
     case BarcodeType.PDF417:
       // TODO: Handle this case.
       break;
@@ -274,5 +271,5 @@ Size _barcodeSize(BarcodeType type) {
       // TODO: Handle this case.
       break;
   }
-  return Size(200, 200);
+  return const Size(200, 200);
 }
