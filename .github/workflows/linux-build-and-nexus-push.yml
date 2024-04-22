@@ -48,7 +48,7 @@ jobs:
           filename: linux-dev.zip
 
       - name: Upload Build Zip
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v4.3.2
         with:
           name: gesco-barcode-tool-linux-dev.zip
           path: linux-dev.zip
@@ -69,7 +69,7 @@ jobs:
           appimage-builder --recipe AppImageBuilder.yml
 
       - name: Upload Build AppImage
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v4.3.2
         with:
           name: gesco-barcode-tool-linux-dev.AppImage
           path: Gesco-barcode-tool-latest-x86_64.AppImage
