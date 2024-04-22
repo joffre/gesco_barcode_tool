@@ -10,8 +10,8 @@ on:
 jobs:
   app_version:
     name: 🔢 Get application version with major.minor.path format only (without +build)
-    runs-on: [ self-hosted, Linux ]
-#    runs-on: ubuntu-latest
+#    runs-on: [ self-hosted, Linux ]
+    runs-on: ubuntu-latest
     outputs:
       version_name: ${{steps.extract-current-version.outputs.version_name}}
       version_code: ${{steps.extract-current-version.outputs.version_code}}
