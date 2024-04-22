@@ -44,7 +44,7 @@ jobs:
         run: flutter build linux
 
       - name: Compress artifacts
-        uses: TheDoctor0/zip-release@0.6.1
+        uses: TheDoctor0/zip-release@0.7.6
         with:
           filename: linux-dev.zip
 
