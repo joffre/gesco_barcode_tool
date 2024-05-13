@@ -17,7 +17,7 @@ jobs:
       version_code: ${{steps.extract-current-version.outputs.version_code}}
     steps:
       - id: checkout
-        uses: actions/checkout@v4.1.3
+        uses: actions/checkout@v4.1.5
 
       - name: Set up yq
         uses: mikefarah/yq@v4.43.1

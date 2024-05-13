@@ -21,7 +21,7 @@ jobs:
 #    runs-on: ubuntu-latest
     needs: [ get-flutter-version, get-app-version ]
     steps:
-      - uses: actions/checkout@v4.1.3
+      - uses: actions/checkout@v4.1.5
 
       - name: Setup Flutter SDK
         uses: subosito/flutter-action@v2.16.0
