@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.NEXUS_USER_WRITER }}
           password: ${{ secrets.NEXUS_PASSWORD_WRITER }}
       - name: Build and push ⚓🚢
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name == 'push'}}
           tags: |
